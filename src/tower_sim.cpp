@@ -57,6 +57,9 @@ void TowerSimulation::create_keystrokes() const
     GL::keystrokes.emplace('+', []() { GL::change_zoom(0.95f); });
     GL::keystrokes.emplace('-', []() { GL::change_zoom(1.05f); });
     GL::keystrokes.emplace('f', []() { GL::toggle_fullscreen(); });
+    GL::keystrokes.emplace('*', []() { GL::ticks_per_sec += DEFAULT_TPS_INCREMENT; }); // @MINE
+    GL::keystrokes.emplace('/', []() { GL::ticks_per_sec -= DEFAULT_TPS_INCREMENT; }); // @MINE
+    // GL::keystrokes.emplace(' ', [](){GL::ticks_per_sec}); // @MINE
 }
 
 void TowerSimulation::display_help() const

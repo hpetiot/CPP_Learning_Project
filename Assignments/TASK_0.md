@@ -5,41 +5,67 @@
 Compilez et lancez le programme.
 
 Allez dans le fichier `tower_sim.cpp` et recherchez la fonction responsable de gérer les inputs du programme.
-Sur quelle touche faut-il appuyer pour ajouter un avion ?
-Comment faire pour quitter le programme ?
-A quoi sert la touche 'F' ?
+Sur quelle touche faut-il appuyer pour ajouter un avion ? ```La touche 'c' permet de créer un nouvel avion.```
+Comment faire pour quitter le programme ? ```Appuyer sur la touche 'q' ou bien la touche 'x'.```
+A quoi sert la touche 'F' ? ```À basculer entre les mode feunétré et plein-écran.```
 
 Ajoutez un avion à la simulation et attendez.
-Que est le comportement de l'avion ?
-Quelles informations s'affichent dans la console ?
+Que est le comportement de l'avion ?```Il fait une boucle d'approche de l'aéroport avant d'attérrire, puis vas ce garere dans un carré blanc. enfin il re-décolle pour revenir un peu plus tard.```
+Quelles informations s'affichent dans la console ?```Le nom de l'avion, dans mon cas  AY7541, suivit de ce qu'il fait, lorsque l'avion est garé il indique aussi que l'aeroport s'occupe de l'avion.```
 
 Ajoutez maintenant quatre avions d'un coup dans la simulation.
-Que fait chacun des avions ?
+Que fait chacun des avions ? ```Trois des avion arrivent à attérir à des interval très (trop) cours puis il vont chacun occuper une des place de garage signalées par un carré blanc. Le quatrième reste en boucle d'attente et ne ce pause qu'une fois la piste libérée par les avion en départ.```
 
 ## B- Analyse du code
 
 Listez les classes du programme à la racine du dossier src/.
 Pour chacune d'entre elle, expliquez ce qu'elle représente et son rôle dans le programme.
+```
+* AircraftType -> représente les différent ytpe d'avion via leurs propriété et leurs textures.
+* Aircraft -> Représent eune instance d'avion,avec ces propriété dont position vitesse direction, détermine la bonne version du sprite à affier.
+* AirportType -> Définie des types d'aéroport par leur nombre de terminaux, leur nombre et orrientation de pister ainsi que par le chemin d'apporche à utiliser pour attérir ou repartir de l'aéroport.
+* Airport -> implemente le fonctionnnement d'un aéroport donc le chemin à utiliser entre la (les) piste et un teminal ainsi que le chemin inverse, ainis que sa texture.
+* config -> Ficher de configuration de l'application.
+* geometry -> Contien les strucutre de math et géometrie permettant de paser d'un espace 3d simulé à un écran 2d.
+* Runnway -> definit le début et fin d'une piste ainsi que sa longueur.
+* Terminal -> Gere la position de chaque terminaux, (ci-dessus "place de garage") ainsi que la progression de leur tâches.
+* TowerSim -> Classe principale de l'interface.
+* Tower -> tour de controle assignat chaque terminal à un avion, et verifiant le bon fonctionement du system des avion au sol.
+* Waypoint -> définit des points de passage et informe de si il correspondent à un terminal, un point au sol ou un point dans les air.
+```
 
 Pour les classes `Tower`, `Aircaft`, `Airport` et `Terminal`, listez leurs fonctions-membre publiques et expliquez précisément à quoi elles servent.
+```
+Tower -> Assigne à chaque avion soit une trajectoire pour approcher l'aéroport si un terminal est disponible, soit une boucle d'attente si l'avion est déjà sur l'aéroport, verifie si sont service est finit si oui, envoie l'avion dans els air. via la fonction get_instruction, soit un terminal si possible et s'assure en suite que l'aéroport s'en occupe.
+Aircraft -> Permet d'avoiur la distance à un autre objert, d'avoir le numéro de vol de l'avion, de s'afficher lui-même. Permet aussi de simuler son mouvement: tomber dû à une vitesse trop basse, s'approcher d'un point de passage ou déployer le train d'attérissage si nécéssaire. détecte aussi si il crashe.
+Airport -> Communique avec une tour de controle, s'affiche et fait progresser les tâches des terminaux.
+Terminal -> indique si il est utilisé, entrain de s'ocuper d'un avion, reçois l'assignation d'un avion, début et finit de s'occuper d'un avion, progresse dans sa tâch de s'occuper d'un avion.
+```
 Réalisez ensuite un schéma présentant comment ces différentes classes intéragissent ensemble.
 
 Quelles classes et fonctions sont impliquées dans la génération du chemin d'un avion ?
+D'abord l'aéroport qui assign un point de départ du chemin au terminal corrspondant, Puis la classe waypoint qui génére le chemin d'un terminal vers le point de passage du l'aeroport corspondant à "avion en l'air", et enfin la tour qui assigne le reste du trajet (actuelement une boucle entre le "point avion en l'air" et le point "avion vas attérir".)
 Quel conteneur de la librairie standard a été choisi pour représenter le chemin ?
+ La deque permet d'ajouter des point de passage, à l'avant comme à l'arrier de façon très efficace. Le surcout de mémoire par rapport à un vector est acceptable comme dans beaucoup de simulation temps réél. Il représente aussi très bien un trajet: on a un point de départ qui est le premier waypoint et un point d'arriver qui est le dernier, on peut choisir de faire un détour impliquant de réjouter des wwaypoint devant le prochain prévu et on peut choisir de changer la fin du trajet.
 Expliquez les intérêts de ce choix.
 
 ## C- Bidouillons !
 
-1) Déterminez à quel endroit du code sont définies les vitesses maximales et accélération de chaque avion.
-Le Concorde est censé pouvoir voler plus vite que les autres avions.
-Modifiez le programme pour tenir compte de cela.
+### 1) Déterminez à quel endroit du code sont définies les vitesses maximales et accélération de chaque avion.
+Dans le ficher aircraft_typres.hpp.
+### Le Concorde est censé pouvoir voler plus vite que les autres avions.
+### Modifiez le programme pour tenir compte de cela.
 
-2) Identifiez quelle variable contrôle le framerate de la simulation.
-Ajoutez deux nouveaux inputs au programme permettant d'augmenter ou de diminuer cette valeur.
-Essayez maintenant de mettre en pause le programme en manipulant ce framerate. Que se passe-t-il ?\
-Ajoutez une nouvelle fonctionnalité au programme pour mettre le programme en pause, et qui ne passe pas par le framerate.
-
-3) Identifiez quelle variable contrôle le temps de débarquement des avions et doublez-le.
+### 2) Identifiez quelle variable contrôle le framerate de la simulation.
+la variable ticks_per_sec dans le ficher opengl_interface.hpp, qui es réglé sur DEFAULT_TICKS_PER_SEC du fichier config.
+Cela impacte le nombre de ticks par seconde mais il y a dans le fichier GL/opengl_interface.cpp, un appel a glutTimerFunc utilisant cette variable et un autre appelant ce précedant en temps que callback utilisant un 100 hardcodé.
+### Ajoutez deux nouveaux inputs au programme permettant d'augmenter ou de diminuer cette valeur.
+### Essayez maintenant de mettre en pause le programme en manipulant ce framerate. Que se passe-t-il ?\
+On loop back à max unsigned int donc on finit par ***fortement*** accelerer le système.
+### Ajoutez une nouvelle fonctionnalité au programme pour mettre le programme en pause, et qui ne passe pas par le framerate.
+Je ne sais pas vraiment qu'oi ajouter entre un toggle entre 0 et la dernière valeu ajouté pour la value de DEFAULT_TICKS_PER_SEC. ce qui serait facile à implementer ou un system de sleep qui permettrait de fair de l'attente passive. @REVOIR
+### 3) Identifiez quelle variable contrôle le temps de débarquement des avions et doublez-le.
+C'est la variable SERVICE_CYCLES dans le fichier config.
 
 4) Lorsqu'un avion a décollé, il réattérit peu de temps après.
 Faites en sorte qu'à la place, il soit retiré du programme.\
