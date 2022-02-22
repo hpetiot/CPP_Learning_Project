@@ -63,17 +63,22 @@ Cela impacte le nombre de ticks par seconde mais il y a dans le fichier GL/openg
 ### Essayez maintenant de mettre en pause le programme en manipulant ce framerate. Que se passe-t-il ?\
 On loop back à max unsigned int donc on finit par ***fortement*** accelerer le système.
 ### Ajoutez une nouvelle fonctionnalité au programme pour mettre le programme en pause, et qui ne passe pas par le framerate.
-Je ne sais pas vraiment qu'oi ajouter entre un toggle entre 0 et la dernière valeu ajouté pour la value de DEFAULT_TICKS_PER_SEC. ce qui serait facile à implementer ou un system de sleep qui permettrait de fair de l'attente passive. @REVOIR
+Je ne sais pas vraiment qu'oi ajouter entre un toggle entre 0 et la dernière valeu ajouté pour la value de DEFAULT_TICKS_PER_SEC. ce qui serait facile à implementer ou un system de sleep qui permettrait de fair de l'attente passive. On peut cependant utiliser un methode similaire à celle du fullscreen déjà en place: un touche qui toggle un boolean. Cette modification est plus facile à faire dans la fonction GL::timer.
 ### 3) Identifiez quelle variable contrôle le temps de débarquement des avions et doublez-le.
 C'est la variable SERVICE_CYCLES dans le fichier config.
 
-4) Lorsqu'un avion a décollé, il réattérit peu de temps après.
-Faites en sorte qu'à la place, il soit retiré du programme.\
-Indices :\
-A quel endroit pouvez-vous savoir que l'avion doit être supprimé ?\
-Pourquoi n'est-il pas sûr de procéder au retrait de l'avion dans cette fonction ?
-A quel endroit de la callstack pourriez-vous le faire à la place ?\
-Que devez-vous modifier pour transmettre l'information de la première à la seconde fonction ?
+### 4) Lorsqu'un avion a décollé, il réattérit peu de temps après.
+### Faites en sorte qu'à la place, il soit retiré du programme.\
+### Indices :\
+### A quel endroit pouvez-vous savoir que l'avion doit être supprimé ?
+Dans la fonction move.
+
+### Pourquoi n'est-il pas sûr de procéder au retrait de l'avion dans cette fonction ?
+Autodestruction pas sure + stoké dans la moveQueu utilisée dans Timer -> risk de pendouillage.
+### A quel endroit de la callstack pourriez-vous le faire à la place ?\
+On vas le faire dans lasire fonction timer, en l'informant via le retour de move().
+### Que devez-vous modifier pour transmettre l'information de la première à la seconde fonction ?
+Tout les overrice de la fonciton virtuelle move ainsi que sont prototype.
 
 5) Lorsqu'un objet de type `Displayable` est créé, il faut ajouter celui-ci manuellement dans la liste des objets à afficher.
 Il faut également penser à le supprimer de cette liste avant de le détruire.

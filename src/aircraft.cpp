@@ -88,10 +88,15 @@ void Aircraft::add_waypoint(const Waypoint& wp, const bool front)
     }
 }
 
-void Aircraft::move()
+bool Aircraft::move()
 {
     if (waypoints.empty())
     {
+        if (!incoming)
+        {
+            return false;
+        }
+        // If i ask for instruction after leaving the terinal, i'm sufficiently hight to be removed!
         waypoints = control.get_instructions(*this);
     }
 
@@ -136,6 +141,7 @@ void Aircraft::move()
         // update the z-value of the displayable structure
         GL::Displayable::z = pos.x() + pos.y();
     }
+    return true;
 }
 
 void Aircraft::display() const
