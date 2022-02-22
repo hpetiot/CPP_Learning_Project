@@ -59,6 +59,7 @@ void TowerSimulation::create_keystrokes() const
     GL::keystrokes.emplace('f', []() { GL::toggle_fullscreen(); });
     GL::keystrokes.emplace('*', []() { GL::ticks_per_sec += DEFAULT_TPS_INCREMENT; }); // @MINE
     GL::keystrokes.emplace('/', []() { GL::ticks_per_sec -= DEFAULT_TPS_INCREMENT; }); // @MINE
+    GL::keystrokes.emplace('p', []() { GL::PAUSED = !GL::PAUSED; });                   // @MINE
     // GL::keystrokes.emplace(' ', [](){GL::ticks_per_sec}); // @MINE
 }
 
