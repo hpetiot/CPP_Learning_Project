@@ -3,7 +3,6 @@
 #include <vector>
 
 namespace GL {
-
 // a displayable object can be displayed and has a z-coordinate indicating who
 // is displayed before whom ;]
 

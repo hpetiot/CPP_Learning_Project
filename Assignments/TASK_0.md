@@ -76,16 +76,16 @@ Dans la fonction move.
 ### Pourquoi n'est-il pas sûr de procéder au retrait de l'avion dans cette fonction ?
 Autodestruction pas sure + stoké dans la moveQueu utilisée dans Timer -> risk de pendouillage.
 ### A quel endroit de la callstack pourriez-vous le faire à la place ?\
-On vas le faire dans lasire fonction timer, en l'informant via le retour de move().
+On vas le faire dans la fonction timer, en l'informant via le retour de move().
 ### Que devez-vous modifier pour transmettre l'information de la première à la seconde fonction ?
 Tout les overrice de la fonciton virtuelle move ainsi que sont prototype.
 
-5) Lorsqu'un objet de type `Displayable` est créé, il faut ajouter celui-ci manuellement dans la liste des objets à afficher.
-Il faut également penser à le supprimer de cette liste avant de le détruire.
-Faites en sorte que l'ajout et la suppression de `display_queue` soit "automatiquement gérée" lorsqu'un `Displayable` est créé ou détruit.
-Pourquoi n'est-il pas spécialement pertinent d'en faire de même pour `DynamicObject` ?
-
-6) La tour de contrôle a besoin de stocker pour tout `Aircraft` le `Terminal` qui lui est actuellement attribué, afin de pouvoir le libérer une fois que l'avion décolle.
+### 5) Lorsqu'un objet de type `Displayable` est créé, il faut ajouter celui-ci manuellement dans la liste des objets à afficher.
+### Il faut également penser à le supprimer de cette liste avant de le détruire.
+### Faites en sorte que l'ajout et la suppression de `display_queue` soit "automatiquement gérée" lorsqu'un `Displayable` est créé ou détruit.
+### Pourquoi n'est-il pas spécialement pertinent d'en faire de même pour `DynamicObject` ?
+Fait avec earease with iterrator.
+### 6) La tour de contrôle a besoin de stocker pour tout `Aircraft` le `Terminal` qui lui est actuellement attribué, afin de pouvoir le libérer une fois que l'avion décolle.
 Cette information est actuellement enregistrée dans un `std::vector<std::pair<const Aircraft*, size_t>>` (size_t représentant l'indice du terminal).
 Cela fait que la recherche du terminal associé à un avion est réalisée en temps linéaire, par rapport au nombre total de terminaux.
 Cela n'est pas grave tant que ce nombre est petit, mais pour préparer l'avenir, on aimerait bien remplacer le vector par un conteneur qui garantira des opérations efficaces, même s'il y a beaucoup de terminaux.\
@@ -93,10 +93,13 @@ Modifiez le code afin d'utiliser un conteneur STL plus adapté. Normalement, à 
 
 ## D- Théorie
 
-1) Comment a-t-on fait pour que seule la classe `Tower` puisse réserver un terminal de l'aéroport ?
+### 1) Comment a-t-on fait pour que seule la classe `Tower` puisse réserver un terminal de l'aéroport ?
+Car la fonction `reserveTerminal` dasn airport est privée et seul Tower est une riendly`class de airport.
 
-2) En regardant le contenu de la fonction `void Aircraft::turn(Point3D direction)`, pourquoi selon-vous ne sommes-nous pas passer par une réference constante ?
-Pensez-vous qu'il soit possible d'éviter la copie du `Point3D` passé en paramètre ?
+### 2) En regardant le contenu de la fonction `void Aircraft::turn(Point3D direction)`, pourquoi selon-vous ne sommes-nous pas passer par une réference constante ?
+Car on appel des fonctions pouvant modifier l'état de l'objet direction, ce qui n'eat pas possible sur de const-ref.
+### Pensez-vous qu'il soit possible d'éviter la copie du `Point3D` passé en paramètre ?
+Cela n'est pas possible car cela n'est pas un objéet créé par un appel au constructeur et n'a dnoc pas de références possible.
 
 ## E- Bonus
 
