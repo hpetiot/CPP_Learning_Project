@@ -5,8 +5,8 @@
 La création des avions est aujourd'hui gérée par les fonctions `TowerSimulation::create_aircraft` et `TowerSimulation::create_random_aircraft`.
 Chaque avion créé est ensuite placé dans les files `GL::display_queue` et `GL::move_queue`.
 
-Si à un moment quelconque du programme, vous souhaitiez accéder à l'avion ayant le numéro de vol "AF1250", que devriez-vous faire ?
-
+### Si à un moment quelconque du programme, vous souhaitiez accéder à l'avion ayant le numéro de vol "AF1250", que devriez-vous faire ?
+Pour l'instant il faut ittérer sur les différentes Queue.
 ---
 
 ## Objectif 1 - Référencement des avions
@@ -17,7 +17,21 @@ Pour trouver un avion particulier dans le programme, ce serait pratique d'avoir 
 
 Vous avez 2 choix possibles :
 - créer une nouvelle classe, `AircraftManager`, qui assumera ce rôle,
+    Pro: 
+        - isolation des responsabilité.
+        - lisibilité du code.
+    Con:
+        - complexification de l'uml.
+        - gros travail de refactoring du code.
+
 - donner ce rôle à une classe existante.
+    Pro:
+        - mins de réfactoring
+        - uml mons complex
+        - economie de mémoire au chargement des classe.
+    Con:
+        - Code moin lisible
+        - code de plus en plus dur à maintenir au cours du temps.
 
 Réfléchissez aux pour et contre de chacune de ces options.
 
@@ -29,10 +43,13 @@ Vous allez introduire une nouvelle liste de références sur les avions du progr
 Il serait donc bon de savoir qui est censé détruire les avions du programme, afin de déterminer comment vous allez pouvoir mettre à jour votre gestionnaire d'avions lorsque l'un d'entre eux disparaît.
 
 Répondez aux questions suivantes :
-1. Qui est responsable de détruire les avions du programme ? (si vous ne trouvez pas, faites/continuez la question 4 dans TASK_0)
-2. Quelles autres structures contiennent une référence sur un avion au moment où il doit être détruit ?
-3. Comment fait-on pour supprimer la référence sur un avion qui va être détruit dans ces structures ?
-4. Pourquoi n'est-il pas très judicieux d'essayer d'appliquer la même chose pour votre `AircraftManager` ?
+### 1. Qui est responsable de détruire les avions du programme ? (si vous ne trouvez pas, faites/continuez la question 4 dans TASK_0)
+Actuelement la openglInterface
+### 2. Quelles autres structures contiennent une référence sur un avion au moment où il doit être détruit ?
+la Tower
+### 3. Comment fait-on pour supprimer la référence sur un avion qui va être détruit dans ces structures ?
+on earase arès avoir delete
+### 4. Pourquoi n'est-il pas très judicieux d'essayer d'appliquer la même chose pour votre `AircraftManager` ?
 
 Pour simplifier le problème, vous allez déplacer l'ownership des avions dans la classe `AircraftManager`.
 Vous allez également faire en sorte que ce soit cette classe qui s'occupe de déplacer les avions, et non plus la fonction `timer`.
