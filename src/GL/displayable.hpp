@@ -1,6 +1,7 @@
 #pragma once
 
 #include <algorithm>
+#include <iostream>
 #include <vector>
 
 namespace GL {
@@ -31,6 +32,7 @@ struct disp_z_cmp
     {
         const auto az = a->get_z();
         const auto bz = b->get_z();
+
         return (az == bz) ? (a > b) : (az > bz);
     }
 };

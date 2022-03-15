@@ -35,6 +35,7 @@ private:
         {
             it->assign_craft(aircraft);
             const auto term_idx = std::distance(terminals.begin(), it);
+
             return { type.air_to_terminal(pos, 0, term_idx), term_idx };
         }
         else
@@ -72,6 +73,7 @@ public:
         {
             t.move();
         }
+
         return true;
     }
 

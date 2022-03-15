@@ -13,7 +13,7 @@ private:
     void add_aricraft(std::unique_ptr<Aircraft> aircraft);
 
 public:
-    AircraftManager() {};
+    AircraftManager();
     bool move() override;
     void add_aircraft(std::unique_ptr<Aircraft>);
 };

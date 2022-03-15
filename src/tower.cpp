@@ -4,6 +4,7 @@
 #include "terminal.hpp"
 
 #include <cassert>
+#include <iostream>
 
 WaypointQueue Tower::get_circle() const
 {
@@ -15,6 +16,7 @@ WaypointQueue Tower::get_circle() const
 
 WaypointQueue Tower::get_instructions(Aircraft& aircraft)
 {
+
     if (!aircraft.is_at_terminal)
     {
         // if the aircraft is far, then just guide it to the airport vicinity
@@ -25,15 +27,18 @@ WaypointQueue Tower::get_instructions(Aircraft& aircraft)
             if (!vp.first.empty())
             {
                 reserved_terminals[&aircraft] = vp.second;
+
                 return vp.first;
             }
             else
             {
+
                 return get_circle();
             }
         }
         else
         {
+
             return get_circle();
         }
     }
@@ -51,10 +56,12 @@ WaypointQueue Tower::get_instructions(Aircraft& aircraft)
             reserved_terminals.erase(&aircraft);
             aircraft.is_at_terminal = false;
             aircraft.incoming       = false;
+
             return airport.start_path(terminal_num);
         }
         else
         {
+
             return {};
         }
     }

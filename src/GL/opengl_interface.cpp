@@ -1,6 +1,9 @@
+
 #include "opengl_interface.hpp"
 
 #include "../aircraft.hpp"
+
+#include <iostream>
 
 namespace GL {
 
@@ -58,6 +61,7 @@ void reshape_window(int w, int h)
 
 void display(void)
 {
+
     // sort the displayables by their z-coordinate
     std::sort(display_queue.begin(), display_queue.end(), disp_z_cmp {});
     glMatrixMode(GL_PROJECTION);

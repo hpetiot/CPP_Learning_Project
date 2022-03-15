@@ -78,7 +78,6 @@ public:
         {
             result.emplace_front(gateway_pos, wp_ground);
         }
-
         return result;
     }
 };

@@ -3,6 +3,7 @@
 #include "GL/opengl_interface.hpp"
 
 #include <cmath>
+#include <iostream>
 
 void Aircraft::turn_to_waypoint()
 {
@@ -34,11 +35,13 @@ unsigned int Aircraft::get_speed_octant() const
         const float angle =
             (norm_speed.y() > 0) ? 2.0f * 3.141592f - std::acos(norm_speed.x()) : std::acos(norm_speed.x());
         // partition into NUM_AIRCRAFT_TILES equal pieces
+
         return (static_cast<int>(std::round((angle * NUM_AIRCRAFT_TILES) / (2.0f * 3.141592f))) + 1) %
                NUM_AIRCRAFT_TILES;
     }
     else
     {
+
         return 0;
     }
 }
@@ -94,6 +97,7 @@ bool Aircraft::move()
     {
         if (!incoming)
         {
+
             return false;
         }
         // If i ask for instruction after leaving the terinal, i'm sufficiently hight to be removed!

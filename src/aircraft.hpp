@@ -56,10 +56,8 @@ public:
         control { control_ }
     {
         speed.cap_length(max_speed());
-        GL::display_queue.emplace_back(this);
+        // GL::display_queue.emplace_back(this);
     }
-
-    ~Aircraft() { std::cout << flight_number << "has been destoyed" << std::endl; }
 
     const std::string& get_flight_num() const { return flight_number; }
     float distance_to(const Point3D& p) const { return pos.distance_to(p); }
