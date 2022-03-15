@@ -81,20 +81,9 @@ void timer(const int step)
         // {
         //     item->move();
         // }
-        for (auto it = move_queue.begin(); it != move_queue.end();)
+        for (auto it = move_queue.begin(); it != move_queue.end(); it++)
         {
-            if (!(*it)->move())
-            {
-                // auto display_it = std::find(GL::display_queue.begin(), GL::display_queue.end(),
-                // static_cast<const Displayable*>(static_cast<Aircraft*>(*it)));
-                delete *it;
-                // GL::display_queue.erase(display_it);
-                it = move_queue.erase(it);
-            }
-            else
-            {
-                ++it;
-            }
+            (*it)->move();
         }
         glutPostRedisplay();
     }

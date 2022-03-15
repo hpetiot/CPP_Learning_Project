@@ -46,25 +46,31 @@ Répondez aux questions suivantes :
 ### 1. Qui est responsable de détruire les avions du programme ? (si vous ne trouvez pas, faites/continuez la question 4 dans TASK_0)
 Actuelement la openglInterface
 ### 2. Quelles autres structures contiennent une référence sur un avion au moment où il doit être détruit ?
-la Tower
+la Tower, moveQueue, displayQueue
 ### 3. Comment fait-on pour supprimer la référence sur un avion qui va être détruit dans ces structures ?
 on earase arès avoir delete
 ### 4. Pourquoi n'est-il pas très judicieux d'essayer d'appliquer la même chose pour votre `AircraftManager` ?
+il vaudrais mieux ne pas avoir à faire cette suppression en 2 étapes et faire en sorte que tout(movequeu / diplayqueue) soit suprimé d'un coup.
 
 Pour simplifier le problème, vous allez déplacer l'ownership des avions dans la classe `AircraftManager`.
 Vous allez également faire en sorte que ce soit cette classe qui s'occupe de déplacer les avions, et non plus la fonction `timer`.
 
 ### C - C'est parti !
 
-Ajoutez un attribut `aircrafts` dans le gestionnaire d'avions.
-Choisissez un type qui met bien en avant le fait que `AircraftManager` est propriétaire des avions.
+### Ajoutez un attribut `aircrafts` dans le gestionnaire d'avions.
+done.
+### Choisissez un type qui met bien en avant le fait que `AircraftManager` est propriétaire des avions.
+done.
+### Ajoutez un nouvel attribut `aircraft_manager` dans la classe `TowerSimulation`.
+done.
+### Faites ce qu'il faut pour que le `AircraftManager` puisse appartenir à la liste `move_queue`.
+Le faire heriter de GL::DynamicObject. Done.
+### Ajoutez la fonction appropriée dans `AircraftManager` pour demander de bouger (`move`) les avions.
 
-Ajoutez un nouvel attribut `aircraft_manager` dans la classe `TowerSimulation`.
-
-Faites ce qu'il faut pour que le `AircraftManager` puisse appartenir à la liste `move_queue`.
-Ajoutez la fonction appropriée dans `AircraftManager` pour demander de bouger (`move`) les avions.
-Supprimez les ajouts d'`Aircraft` dans la `move_queue`. En effet, ce n'est plus `timer` qui est responsable de déplacer les avions mais l'`AircraftManager`.
-Faites le nécessaire pour que le gestionnaire supprime les avions après qu'ils soient partis de l'aéroport.
+### Supprimez les ajouts d'`Aircraft` dans la `move_queue`. En effet, ce n'est plus `timer` qui est responsable de déplacer les avions mais l'`AircraftManager`.
+done.
+### Faites le nécessaire pour que le gestionnaire supprime les avions après qu'ils soient partis de l'aéroport.
+done.
 
 Enfin, faites ce qu'il faut pour que `create_aircraft` donne l'avion qu'elle crée au gestionnaire.
 Testez que le programme fonctionne toujours.
