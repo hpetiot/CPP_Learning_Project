@@ -72,9 +72,10 @@ done.
 ### Faites le nécessaire pour que le gestionnaire supprime les avions après qu'ils soient partis de l'aéroport.
 done.
 
-Enfin, faites ce qu'il faut pour que `create_aircraft` donne l'avion qu'elle crée au gestionnaire.
-Testez que le programme fonctionne toujours.
-
+### Enfin, faites ce qu'il faut pour que `create_aircraft` donne l'avion qu'elle crée au gestionnaire.
+done.
+### Testez que le programme fonctionne toujours.
+done.
 ---
 
 ## Objectif 2 - Usine à avions
@@ -102,13 +103,13 @@ A quelle ligne faut-il définir `context_initializer` dans `TowerSimulation` pou
 
 Refactorisez le restant du code pour utiliser votre factory.
 Vous devriez du coup pouvoir supprimer les variables globales `airlines` et `aircraft_types`.
-
+done!
 ### B - Conflits
 
 Il est rare, mais possible, que deux avions soient créés avec le même numéro de vol.
 Ajoutez un conteneur dans votre classe `AircraftFactory` contenant tous les numéros de vol déjà utilisés.
 Faites maintenant en sorte qu'il ne soit plus possible de créer deux fois un avion avec le même numéro de vol.
-
+done!
 ### C - Data-driven AircraftType (optionnel)
 
 On aimerait pouvoir charger les paramètres des avions depuis un fichier.

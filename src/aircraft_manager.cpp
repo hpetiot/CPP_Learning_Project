@@ -29,3 +29,15 @@ void AircraftManager::add_aircraft(std::unique_ptr<Aircraft> aircraft)
 {
     aircrafts[aircraft->get_flight_num()] = std::move(aircraft);
 }
+
+void AircraftManager::create_random_aircraft(Tower& tower)
+{
+    auto aircraft                         = factory.create_random_aircraft(tower);
+    aircrafts[aircraft->get_flight_num()] = std::move(aircraft);
+}
+
+void AircraftManager::create_aircraft(Tower& tower, const AircraftType& type)
+{
+    auto aircraft                         = factory.create_aircraft(tower, type);
+    aircrafts[aircraft->get_flight_num()] = std::move(aircraft);
+}

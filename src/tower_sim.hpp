@@ -1,14 +1,27 @@
 #pragma once
 
+#include "GL/opengl_interface.hpp"
 #include "aircraft_manager.hpp"
+#include "img/media_path.hpp"
 
 class Airport;
 struct AircraftType;
 
+struct ContextInitializer
+{
+    ContextInitializer(int argc, char** argv)
+    {
+        MediaPath::initialize(argv[0]);
+        std::srand(static_cast<unsigned int>(std::time(nullptr)));
+        GL::init_gl(argc, argv, "Airport Tower Simulation");
+    }
+};
+
 class TowerSimulation
 {
 private:
-    bool help        = false;
+    bool help = false;
+    ContextInitializer context;
     Airport* airport = nullptr;
     AircraftManager aircraft_manager {};
 
