@@ -5,8 +5,9 @@
 La création des avions est aujourd'hui gérée par les fonctions `TowerSimulation::create_aircraft` et `TowerSimulation::create_random_aircraft`.
 Chaque avion créé est ensuite placé dans les files `GL::display_queue` et `GL::move_queue`.
 
-### Si à un moment quelconque du programme, vous souhaitiez accéder à l'avion ayant le numéro de vol "AF1250", que devriez-vous faire ?
+### Imaginez et décrivez ce que vous devriez faire si vous souhaitiez accéder à l'avion ayant le numéro de vol "AF1250".
 Pour l'instant il faut ittérer sur les différentes Queue.
+
 ---
 
 ## Objectif 1 - Référencement des avions
@@ -52,8 +53,7 @@ on earase arès avoir delete
 ### 4. Pourquoi n'est-il pas très judicieux d'essayer d'appliquer la même chose pour votre `AircraftManager` ?
 il vaudrais mieux ne pas avoir à faire cette suppression en 2 étapes et faire en sorte que tout(movequeu / diplayqueue) soit suprimé d'un coup.
 
-Pour simplifier le problème, vous allez déplacer l'ownership des avions dans la classe `AircraftManager`.
-Vous allez également faire en sorte que ce soit cette classe qui s'occupe de déplacer les avions, et non plus la fonction `timer`.
+Pour simplifier le programme, l'`AircraftManager` aura l'ownership des avions, c'est-à-dire que c'est lui qui s'occupera de les faire disparaître du programme, et non plus la fonction `timer`. Il aura également la responsabilité de les faire bouger.
 
 ### C - C'est parti !
 

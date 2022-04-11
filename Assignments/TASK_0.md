@@ -98,7 +98,7 @@ Car la fonction `reserveTerminal` dasn airport est privée et seul Tower est une
 
 ### 2) En regardant le contenu de la fonction `void Aircraft::turn(Point3D direction)`, pourquoi selon-vous ne sommes-nous pas passer par une réference constante ?
 Car on appel des fonctions pouvant modifier l'état de l'objet direction, ce qui n'eat pas possible sur de const-ref.
-### Pensez-vous qu'il soit possible d'éviter la copie du `Point3D` passé en paramètre ?
+### Pourquoi n'est-il pas possible d'éviter la copie du `Point3D` passé en paramètre ?
 Cela n'est pas possible car cela n'est pas un objéet créé par un appel au constructeur et n'a dnoc pas de références possible.
 
 ## E- Bonus
