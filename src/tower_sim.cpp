@@ -58,6 +58,22 @@ TowerSimulation::~TowerSimulation()
 
 void TowerSimulation::create_keystrokes()
 {
+    GL::keystrokes.emplace('0',
+                           [this]() { std::cout << aircraft_manager.count_airline_members(0) << std::endl; });
+    GL::keystrokes.emplace('1',
+                           [this]() { std::cout << aircraft_manager.count_airline_members(1) << std::endl; });
+    GL::keystrokes.emplace('2',
+                           [this]() { std::cout << aircraft_manager.count_airline_members(2) << std::endl; });
+    GL::keystrokes.emplace('3',
+                           [this]() { std::cout << aircraft_manager.count_airline_members(3) << std::endl; });
+    GL::keystrokes.emplace('4',
+                           [this]() { std::cout << aircraft_manager.count_airline_members(4) << std::endl; });
+    GL::keystrokes.emplace('5',
+                           [this]() { std::cout << aircraft_manager.count_airline_members(5) << std::endl; });
+    GL::keystrokes.emplace('6',
+                           [this]() { std::cout << aircraft_manager.count_airline_members(6) << std::endl; });
+    GL::keystrokes.emplace('7',
+                           [this]() { std::cout << aircraft_manager.count_airline_members(7) << std::endl; });
 
     GL::keystrokes.emplace('x', []() { GL::exit_loop(); });
     GL::keystrokes.emplace('q', []() { GL::exit_loop(); });
@@ -76,9 +92,9 @@ void TowerSimulation::display_help() const
     std::cout << "This is an airport tower simulator" << std::endl
               << "the following keysstrokes have meaning:" << std::endl;
 
-    for (const auto& ks_pair : GL::keystrokes)
+    for (const auto& [characterKey, keyStroke] : GL::keystrokes)
     {
-        std::cout << ks_pair.first << ' ';
+        std::cout << characterKey << ' ';
     }
 
     std::cout << std::endl;

@@ -14,6 +14,7 @@ private:
 
 public:
     AircraftFactory(); // with init_aircraft_typesinside;
+    const std::string_view get_airline_name(int airline_number);
     std::unique_ptr<Aircraft> create_aircraft(Tower& tower, const AircraftType& type);
     std::unique_ptr<Aircraft> create_random_aircraft(Tower& tower);
 };

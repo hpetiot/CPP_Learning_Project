@@ -19,7 +19,11 @@ Remplacez votre boucle avec un appel à `std::remove_if`.
 
 2. Pour des raisons de statistiques, on aimerait bien être capable de compter tous les avions de chaque airline.
 A cette fin, rajoutez des callbacks sur les touches `0`..`7` de manière à ce que le nombre d'avions appartenant à `airlines[x]` soit affiché en appuyant sur `x`.
-Rendez-vous compte de quelle classe peut acquérir cet information. Utilisez la bonne fonction de `<algorithm>` pour obtenir le résultat.
+Rendez-vous compte de quelle classe peut acquérir cet information.
+
+`La classe pouvant obtenir cette information est: aircraftManager car c'est elle qui contient tout les aircraft et donc qui sera en mesure de tous les analyser.`
+Utilisez la bonne fonction de `<algorithm>` pour obtenir le résultat. \ 
+`La fonction sera dans la classe aircraft_manager mais appelra une fonction de aircraft factory lui permettant de savoir quel nome de ligne correspond à quel numero de touche.`
 
 ### C - Relooking de Point3D
 
