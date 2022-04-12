@@ -93,10 +93,12 @@ void Aircraft::add_waypoint(const Waypoint& wp, const bool front)
 
 bool Aircraft::move()
 {
+    std::cout << "Aircraft::move IN" << std::endl;
     if (waypoints.empty())
     {
         if (!incoming)
         {
+            std::cout << "Aircraft::move OUT" << std::endl;
 
             return false;
         }
@@ -145,6 +147,7 @@ bool Aircraft::move()
         // update the z-value of the displayable structure
         GL::Displayable::z = pos.x() + pos.y();
     }
+    std::cout << "Aircraft::move OUT" << std::endl;
     return true;
 }
 
