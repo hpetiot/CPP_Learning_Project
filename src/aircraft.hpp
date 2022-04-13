@@ -15,6 +15,7 @@ class Aircraft : public GL::Displayable, public GL::DynamicObject
 private:
     const AircraftType& type;
     const std::string flight_number;
+    const int low_fuel_threshold = 200;
     Point3D pos, speed; // note: the speed should always be normalized to length 'speed'
     WaypointQueue waypoints = {};
     Tower& control;
@@ -65,7 +66,12 @@ public:
     float distance_to(const Point3D& p) const { return pos.distance_to(p); }
 
     void display() const override;
+    bool has_terminal() const;
+    bool is_circling() const;
+    int get_fuel() const;
+    bool is_low_on_fuel() const;
     bool move() override;
+    void refill(int& fuel_stock);
 
     friend class Tower;
 };

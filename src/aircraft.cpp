@@ -109,14 +109,25 @@ bool Aircraft::move()
         // move in the direction of the current speed
         pos += speed;
         fuel--;
-        std::cout << flight_number << "is at " << fuel << " fuel" << std::endl;
 
-        // if we are close to our next waypoint, stike if off the list
         if (fuel <= 0)
         {
             std::cout << flight_number << " has no more fuel" << std::endl;
             return false;
         }
+
+        if (is_circling())
+        {
+            // std::cout << "adding waypoints" << std::endl;
+            auto tmp_waypoints = control.reserve_terminal(*this);
+            if (!tmp_waypoints.empty())
+            {
+                std::cout << flight_number << "'s path update: " << std::endl;
+                std::move(tmp_waypoints.begin(), tmp_waypoints.end(), std::back_inserter(waypoints));
+            }
+        }
+
+        // if we are close to our next waypoint, stike if off the list
         if (!waypoints.empty() && distance_to(waypoints.front()) < DISTANCE_THRESHOLD)
         {
             if (waypoints.front().is_at_terminal())
@@ -157,4 +168,28 @@ bool Aircraft::move()
 void Aircraft::display() const
 {
     type.texture.draw(project_2D(pos), { PLANE_TEXTURE_DIM, PLANE_TEXTURE_DIM }, get_speed_octant());
+}
+
+bool Aircraft::has_terminal() const
+{
+    return waypoints.back().type == WaypointType::wp_terminal;
+}
+
+bool Aircraft::is_circling() const
+{
+    return (waypoints.back().type == WaypointType::wp_air) && incoming;
+}
+
+bool Aircraft::is_low_on_fuel() const
+{
+    return low_fuel_threshold > fuel;
+}
+
+void Aircraft::refill(int& fuel_stock)
+{
+    int fuel_needed = 3000 - fuel;
+    int fuel_used   = std::min(fuel_stock, fuel_needed);
+    std::cout << flight_number << " refilled using " << fuel_used << "fuel from stock" << std::endl;
+    fuel += fuel_used;
+    fuel_stock -= fuel_used;
 }

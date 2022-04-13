@@ -22,4 +22,5 @@ public:
     void create_random_aircraft(Tower& tower);
     int count_airline_members(int airline);
     void create_aircraft(Tower& tower, const AircraftType& type);
+    int get_required_fuel() const;
 };

@@ -3,6 +3,7 @@
 #include "GL/displayable.hpp"
 #include "GL/dynamic_object.hpp"
 #include "GL/texture.hpp"
+#include "aircraft_manager.hpp"
 #include "airport_type.hpp"
 #include "geometry.hpp"
 #include "img/image.hpp"
@@ -19,6 +20,10 @@ private:
     const Point3D pos;
     const GL::Texture2D texture;
     std::vector<Terminal> terminals;
+    const AircraftManager& aircraft_manager;
+    int fuel_stock;
+    int ordered_fuel;
+    long next_refill_time;
     Tower tower;
 
     // reserve a terminal
@@ -52,15 +57,20 @@ private:
     Terminal& get_terminal(const size_t terminal_num) { return terminals.at(terminal_num); }
 
 public:
-    Airport(const AirportType& type_, const Point3D& pos_, const img::Image* image, const float z_ = 1.0f) :
+    Airport(const AirportType& type_, const Point3D& pos_, const img::Image* image,
+            const AircraftManager& aircraft_manager_, const float z_ = 1.0f) :
         GL::Displayable { z_ },
         type { type_ },
         pos { pos_ },
         texture { image },
         terminals { type.create_terminals() },
-        tower { *this }
+        tower { *this },
+        aircraft_manager { aircraft_manager_ }
     {
         GL::display_queue.emplace_back(this);
+        fuel_stock       = 0;
+        ordered_fuel     = 0;
+        next_refill_time = 0;
     }
 
     Tower& get_tower() { return tower; }
@@ -69,6 +79,18 @@ public:
 
     bool move() override
     {
+        if (next_refill_time == 0)
+        {
+            fuel_stock   = ordered_fuel;
+            ordered_fuel = std::min(aircraft_manager.get_required_fuel(), 5000);
+            next_refill_time == 100;
+        }
+        else
+        {
+            next_refill_time--;
+        }
+        std::for_each(terminals.begin(), terminals.end(),
+                      [this](Terminal& term) { term.refill_aircraft_if_needed(fuel_stock); });
         for (auto& t : terminals)
         {
             t.move();
