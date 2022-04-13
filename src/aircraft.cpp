@@ -93,13 +93,10 @@ void Aircraft::add_waypoint(const Waypoint& wp, const bool front)
 
 bool Aircraft::move()
 {
-    std::cout << "Aircraft::move IN" << std::endl;
     if (waypoints.empty())
     {
         if (!incoming)
         {
-            std::cout << "Aircraft::move OUT" << std::endl;
-
             return false;
         }
         // If i ask for instruction after leaving the terinal, i'm sufficiently hight to be removed!
@@ -111,8 +108,15 @@ bool Aircraft::move()
         turn_to_waypoint();
         // move in the direction of the current speed
         pos += speed;
+        fuel--;
+        std::cout << flight_number << "is at " << fuel << " fuel" << std::endl;
 
         // if we are close to our next waypoint, stike if off the list
+        if (fuel <= 0)
+        {
+            std::cout << flight_number << " has no more fuel" << std::endl;
+            return false;
+        }
         if (!waypoints.empty() && distance_to(waypoints.front()) < DISTANCE_THRESHOLD)
         {
             if (waypoints.front().is_at_terminal())
@@ -147,7 +151,6 @@ bool Aircraft::move()
         // update the z-value of the displayable structure
         GL::Displayable::z = pos.x() + pos.y();
     }
-    std::cout << "Aircraft::move OUT" << std::endl;
     return true;
 }
 

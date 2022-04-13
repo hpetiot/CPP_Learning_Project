@@ -130,8 +130,8 @@ struct Point3D
 
     float length() const
     {
-        return std::sqrt(std::accumulate(values.begin(), values.end(), 0,
-                                         [](auto& valueA, auto acc) { return value * value + acc; }));
+        return std::sqrt(std::accumulate(values.begin(), values.end(), 0.f,
+                                         [](float acc, float value) { return value * value + acc; }));
     }
 
     float distance_to(const Point3D& other) const { return (*this - other).length(); }

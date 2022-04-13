@@ -23,16 +23,9 @@ bool AircraftManager::move()
     //         it++;
     //     }
     // }
-    std::cout << "AircraftManager::move() IN" << std::endl;
-    auto it_end = std::remove_if(aircrafts.begin(), aircrafts.end(),
-                                 [](auto& aircraft)
-                                 {
-                                     std::cout << "predicate in remove_if from AircraftManager::move"
-                                               << std::endl;
-                                     return !aircraft->move();
-                                 });
+    auto it_end =
+        std::remove_if(aircrafts.begin(), aircrafts.end(), [](auto& aircraft) { return !aircraft->move(); });
     aircrafts.erase(it_end, aircrafts.cend());
-    std::cout << "AircraftManager::move() OUT" << std::endl;
     return true;
 }
 
@@ -58,8 +51,5 @@ int AircraftManager::count_airline_members(int airline)
     return std::count_if(
         aircrafts.begin(), aircrafts.end(),
         [this, airline](std::unique_ptr<Aircraft>& aircraft)
-        {
-            std::cout << "predicate in count_if from AAircraftManager::count_airline_members" << std::endl;
-            return aircraft->get_flight_num().substr(0, 2).compare(factory.get_airline_name(airline)) == 0;
-        });
+        { return aircraft->get_flight_num().substr(0, 2).compare(factory.get_airline_name(airline)) == 0; });
 }
