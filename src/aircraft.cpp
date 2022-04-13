@@ -193,3 +193,13 @@ void Aircraft::refill(int& fuel_stock)
     fuel += fuel_used;
     fuel_stock -= fuel_used;
 }
+
+bool Aircraft::at_terminal()
+{
+    return is_at_terminal;
+}
+
+int Aircraft::get_fuel() const
+{
+    return fuel;
+}

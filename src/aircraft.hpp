@@ -61,6 +61,7 @@ public:
         speed.cap_length(max_speed());
         // GL::display_queue.emplace_back(this);
     }
+    ~Aircraft() { control.signal_crash(this); }
 
     const std::string& get_flight_num() const { return flight_number; }
     float distance_to(const Point3D& p) const { return pos.distance_to(p); }
@@ -71,6 +72,7 @@ public:
     int get_fuel() const;
     bool is_low_on_fuel() const;
     bool move() override;
+    bool at_terminal();
     void refill(int& fuel_stock);
 
     friend class Tower;

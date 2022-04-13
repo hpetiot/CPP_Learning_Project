@@ -3,6 +3,7 @@
 #include "airport.hpp"
 #include "terminal.hpp"
 
+#include <algorithm>
 #include <cassert>
 #include <iostream>
 
@@ -87,4 +88,10 @@ WaypointQueue Tower::reserve_terminal(Aircraft& aircraft)
     {
         return {};
     }
+}
+
+void Tower::signal_crash(const Aircraft* aircraft)
+{
+    auto reservation = reserved_terminals.find(aircraft);
+    reserved_terminals.erase(reservation);
 }

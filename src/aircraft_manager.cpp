@@ -19,17 +19,17 @@ bool AircraftManager::move()
               {
                   if (aircraftLesser->has_terminal())
                   {
-                      if (aircraftBigger->has_teminal())
+                      if (aircraftBigger->has_terminal())
                       {
-                          return aircraftLesser.get_fuel() < aircraftBigger.get_fuel();
+                          return aircraftLesser->get_fuel() < aircraftBigger->get_fuel();
                       }
                       return true;
                   }
-                  if (aircraftBigger->has_teminal())
+                  if (aircraftBigger->has_terminal())
                   {
                       return false;
                   }
-                  return aircraftLesser.get_fuel() < aircraftBigger.get_fuel();
+                  return aircraftLesser->get_fuel() < aircraftBigger->get_fuel();
               });
     // movin gthe aircrafts:
     auto it_end =
@@ -68,10 +68,10 @@ int AircraftManager::get_required_fuel() const
     return std::accumulate(aircrafts.begin(), aircrafts.end(), 0,
                            [](int acc, auto& aircraft)
                            {
-                               if (aircraft.is_low_on_fuel() && aircraft.incoming())
+                               if (aircraft->is_low_on_fuel() && aircraft->at_terminal())
                                {
-                                   return 3000 - aircraft.get_fuel();
+                                   return acc + (3000 - aircraft->get_fuel());
                                }
-                               return 0;
+                               return acc;
                            });
 }

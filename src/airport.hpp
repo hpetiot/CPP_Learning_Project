@@ -20,11 +20,11 @@ private:
     const Point3D pos;
     const GL::Texture2D texture;
     std::vector<Terminal> terminals;
+    Tower tower;
     const AircraftManager& aircraft_manager;
     int fuel_stock;
     int ordered_fuel;
     long next_refill_time;
-    Tower tower;
 
     // reserve a terminal
     // if a terminal is free, return
@@ -81,9 +81,9 @@ public:
     {
         if (next_refill_time == 0)
         {
-            fuel_stock   = ordered_fuel;
-            ordered_fuel = std::min(aircraft_manager.get_required_fuel(), 5000);
-            next_refill_time == 100;
+            fuel_stock       = ordered_fuel;
+            ordered_fuel     = std::min(aircraft_manager.get_required_fuel(), 5000);
+            next_refill_time = 100;
         }
         else
         {
