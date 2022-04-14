@@ -61,7 +61,12 @@ public:
         speed.cap_length(max_speed());
         // GL::display_queue.emplace_back(this);
     }
-    ~Aircraft() { control.signal_crash(this); }
+    ~Aircraft()
+    {
+        std::cout << "deleting aircraft IN" << std::endl;
+        control.signal_crash(this);
+        std::cout << "deleting aircraft OUT" << std::endl;
+    }
 
     const std::string& get_flight_num() const { return flight_number; }
     float distance_to(const Point3D& p) const { return pos.distance_to(p); }

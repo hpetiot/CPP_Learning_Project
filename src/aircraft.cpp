@@ -172,6 +172,11 @@ void Aircraft::display() const
 
 bool Aircraft::has_terminal() const
 {
+    std::cout << "Aircraft::has_terminal()" << std::endl;
+    if (waypoints.empty())
+    {
+        return false;
+    }
     return waypoints.back().type == WaypointType::wp_terminal;
 }
 

@@ -50,9 +50,18 @@ public:
 
     void refill_aircraft_if_needed(int& fuel_stock)
     {
+        std::cout << "Terminal::refill_aircraft_if_needed IN" << std::endl;
+        if (current_aircraft == nullptr)
+        {
+            std::cout << "current aircraft is null" << std::endl;
+            std::cout << "Terminal::refill_aircraft_if_needed OUT" << std::endl;
+
+            return;
+        }
         if (current_aircraft->is_low_on_fuel())
         {
             current_aircraft->refill(fuel_stock);
         }
+        std::cout << "Terminal::refill_aircraft_if_needed OUT" << std::endl;
     }
 };
