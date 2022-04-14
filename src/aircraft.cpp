@@ -108,7 +108,6 @@ bool Aircraft::move()
         turn_to_waypoint();
         // move in the direction of the current speed
         pos += speed;
-        fuel--;
 
         if (fuel <= 0)
         {
@@ -153,6 +152,8 @@ bool Aircraft::move()
         {
             // if we are in the air, but too slow, then we will sink!
             const float speed_len = speed.length();
+            fuel--;
+
             if (speed_len < SPEED_THRESHOLD)
             {
                 pos.z() -= SINK_FACTOR * (SPEED_THRESHOLD - speed_len);
@@ -172,7 +173,6 @@ void Aircraft::display() const
 
 bool Aircraft::has_terminal() const
 {
-    std::cout << "Aircraft::has_terminal()" << std::endl;
     if (waypoints.empty())
     {
         return false;
@@ -194,7 +194,8 @@ void Aircraft::refill(int& fuel_stock)
 {
     int fuel_needed = 3000 - fuel;
     int fuel_used   = std::min(fuel_stock, fuel_needed);
-    std::cout << flight_number << " refilled using " << fuel_used << "fuel from stock" << std::endl;
+    std::cout << flight_number << " " << fuel_used << "fuel from stock (fuel aircraft : " << fuel
+              << "; stock : " << fuel_stock << "; fuel needed :" << fuel_needed << std::endl;
     fuel += fuel_used;
     fuel_stock -= fuel_used;
 }

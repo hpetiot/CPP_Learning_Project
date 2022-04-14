@@ -63,15 +63,18 @@ public:
     }
     ~Aircraft()
     {
-        std::cout << "deleting aircraft IN" << std::endl;
-        control.signal_crash(this);
-        std::cout << "deleting aircraft OUT" << std::endl;
+        if (has_terminal())
+        {
+            control.signal_crash(this);
+        }
     }
 
     const std::string& get_flight_num() const { return flight_number; }
     float distance_to(const Point3D& p) const { return pos.distance_to(p); }
 
     void display() const override;
+    bool is_incoming() { return incoming; }
+
     bool has_terminal() const;
     bool is_circling() const;
     int get_fuel() const;

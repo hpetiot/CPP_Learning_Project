@@ -79,32 +79,28 @@ public:
 
     bool move() override
     {
-        std::cout << "Airport::move IN" << std::endl;
         if (next_refill_time == 0)
         {
-            fuel_stock       = ordered_fuel;
-            ordered_fuel     = std::min(aircraft_manager.get_required_fuel(), 5000);
+            fuel_stock += ordered_fuel;
+            ordered_fuel = std::min(aircraft_manager.get_required_fuel(), 5000);
+            std::cout << "ordered fuel : " << ordered_fuel << std::endl;
             next_refill_time = 100;
         }
         else
         {
             next_refill_time--;
         }
-        std::cout << "reached terminal call" << std::endl;
         std::for_each(terminals.begin(), terminals.end(),
                       [this](Terminal& term)
                       {
-                          std::cout << "terminal before refill if needed" << std::endl;
                           term.refill_aircraft_if_needed(fuel_stock);
-                          std::cout << "terminal after refill if needed" << std::endl;
+                          term.move();
                       });
-        std::cout << "after terminal call" << std::endl;
 
-        for (auto& t : terminals)
-        {
-            t.move();
-        }
-        std::cout << "Airport::move OUT" << std::endl;
+        // for (auto& t : terminals)
+        // {
+        //     t.move();
+        // }
         return true;
     }
 

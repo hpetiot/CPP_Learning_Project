@@ -12,41 +12,32 @@ AircraftManager::AircraftManager()
 
 bool AircraftManager::move()
 {
-    std::cout << "AircraftManager::move() IN" << std::endl;
     // sorting the aircrafts:
     std::sort(aircrafts.begin(), aircrafts.end(),
               [](auto& aircraftLesser, auto& aircraftBigger)
               {
-                  std::cout << "predicate sort aircraft IN" << std::endl;
                   if (aircraftLesser->has_terminal())
                   {
-                      std::cout << "pased 1st if" << std::endl;
                       if (aircraftBigger->has_terminal())
                       {
-                          std::cout << "predicate sort aircraft OUT" << std::endl;
 
                           return aircraftLesser->get_fuel() < aircraftBigger->get_fuel();
                       }
-                      std::cout << "predicate sort aircraft OUT" << std::endl;
 
                       return true;
                   }
                   if (aircraftBigger->has_terminal())
                   {
-                      std::cout << "predicate sort aircraft OUT" << std::endl;
 
                       return false;
                   }
-                  std::cout << "predicate sort aircraft OUT" << std::endl;
 
                   return aircraftLesser->get_fuel() < aircraftBigger->get_fuel();
               });
-    std::cout << "done sorting list of aicrafts" << std::endl;
     // movin gthe aircrafts:
     auto it_end =
         std::remove_if(aircrafts.begin(), aircrafts.end(), [](auto& aircraft) { return !aircraft->move(); });
     aircrafts.erase(it_end, aircrafts.cend());
-    std::cout << "AircraftManager::move() OUT" << std::endl;
     return true;
 }
 
@@ -77,14 +68,15 @@ int AircraftManager::count_airline_members(int airline)
 
 int AircraftManager::get_required_fuel() const
 {
-    std::cout << "AircraftManager::get_required_fuel()" << std::endl;
+    // std::cout << "AircraftManager::get_required_fuel()" << std::endl;
     return std::accumulate(aircrafts.begin(), aircrafts.end(), 0,
-                           [](int acc, auto& aircraft)
+                           [](int acc, const auto& aircraft)
                            {
-                               std::cout << "acc passage" << std::endl;
-                               if (aircraft->is_low_on_fuel() && aircraft->at_terminal())
+                               if (aircraft->is_low_on_fuel() && aircraft->is_incoming())
                                {
-                                   return acc + (3000 - aircraft->get_fuel());
+                                   int added_fuel = 3000 - aircraft->get_fuel();
+                                   std::cout << "aircraft was ow on fuel : needs " << added_fuel << std::endl;
+                                   return acc + added_fuel;
                                }
                                return acc;
                            });
