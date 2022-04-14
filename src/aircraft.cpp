@@ -112,9 +112,9 @@ bool Aircraft::move()
         if (fuel <= 0)
         {
             std::cout << flight_number << " has no more fuel" << std::endl;
-            return false;
+            // return false;
+            throw AircraftCrash { "aeiognpazoebazpobaeobiaeoibapoibpaoirbapoibpaobipaoiebhpaoiAegf eazfaze" };
         }
-
         if (is_circling())
         {
             // std::cout << "adding waypoints" << std::endl;

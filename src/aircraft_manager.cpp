@@ -7,6 +7,7 @@
 
 AircraftManager::AircraftManager()
 {
+    crashes_count = 0;
     GL::move_queue.insert(this);
 }
 
@@ -35,9 +36,21 @@ bool AircraftManager::move()
                   return aircraftLesser->get_fuel() < aircraftBigger->get_fuel();
               });
     // movin gthe aircrafts:
-    auto it_end =
-        std::remove_if(aircrafts.begin(), aircrafts.end(), [](auto& aircraft) { return !aircraft->move(); });
-    aircrafts.erase(it_end, aircrafts.cend());
+    auto it_end = std::remove_if(aircrafts.begin(), aircrafts.end(),
+                                 [this](const auto& aircraft)
+                                 {
+                                     try
+                                     {
+                                         return !aircraft->move();
+                                     } catch (const AircraftCrash& ac)
+                                     {
+                                         crashes_count++;
+                                         std::cerr << ac.what() << ", total crashes : " << crashes_count
+                                                   << std::endl;
+                                         return true;
+                                     }
+                                 });
+    aircrafts.erase(it_end, aircrafts.end());
     return true;
 }
 
@@ -80,4 +93,9 @@ int AircraftManager::get_required_fuel() const
                                }
                                return acc;
                            });
+}
+
+void AircraftManager::display_crashes()
+{
+    std::cout << "total crashes : " << crashes_count << std::endl;
 }
