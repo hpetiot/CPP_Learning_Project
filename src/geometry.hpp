@@ -4,6 +4,7 @@
 #include <array>
 #include <cassert>
 #include <cmath>
+#include <functional>
 #include <iostream>
 #include <numeric>
 
@@ -169,3 +170,55 @@ inline Point2D project_2D(const Point3D& p)
 {
     return { .5f * p.x() - .5f * p.y(), .5f * p.x() + .5f * p.y() + p.z() };
 }
+
+template <typename type, size_t size> class Point
+{
+private:
+    std::array<type, size> coord;
+
+    Point& operate(Point& other, BinaryOperation binary_op)
+    {
+        assert(other.coord.size() == size);
+        std::transform(coord.begin(), coord.end(, other.coord.begin(), values.begin(), binary_op));
+        return *this;
+    }
+
+public:
+    Point() = default;
+    Point& operator+=(const Point& other) { return operate(other, std::plus()); }
+
+    Point& operator-=(const Point& other) { return operate(other, std::minus()); }
+
+    Point& operator*=(const type scalar)
+    {
+        return operate(other, [scalar](auto& val) { return val * scalar; });
+    }
+    Point operator+(const Point& other) const
+    {
+        Point result = *this;
+        result += other;
+        return result;
+    }
+
+    Point operator-(const Point& other) const
+    {
+        Point result = *this;
+        result -= other;
+        return result;
+    }
+
+    Point operator*(const type scalar) const
+    {
+        Point result = *this;
+        result *= scalar;
+        return result;
+    }
+
+    Point operator-() const { return Point { -x(), -y(), -z() }; }
+
+    double length() const
+    {
+        return std::sqrt(std::accumulate(coord.begin(), coord.end(), 0.d,
+                                         [](type acc, type value) { return value * value + acc }))
+    }
+};
