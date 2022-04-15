@@ -1,6 +1,7 @@
 #include "aircraft_manager.hpp"
 
 #include <algorithm>
+#include <cassert>
 #include <numeric>
 #include <string>
 #include <utility>
@@ -73,6 +74,8 @@ void AircraftManager::create_aircraft(Tower& tower, const AircraftType& type)
 
 int AircraftManager::count_airline_members(int airline)
 {
+    assert(airline >= 0 && "the index of a talbe cannot be negative");
+
     return std::count_if(
         aircrafts.begin(), aircrafts.end(),
         [this, airline](std::unique_ptr<Aircraft>& aircraft)

@@ -23,6 +23,7 @@ void Aircraft::turn_to_waypoint()
 
 void Aircraft::turn(Point3D direction)
 {
+    // assert(direction != nullptr);
     (speed += direction.cap_length(type.max_accel)).cap_length(max_speed());
 }
 
@@ -192,6 +193,7 @@ bool Aircraft::is_low_on_fuel() const
 
 void Aircraft::refill(int& fuel_stock)
 {
+    assert(fuel_stock >= 0 && "fuel_stock should never be ABLE to drop beloow 0");
     int fuel_needed = 3000 - fuel;
     int fuel_used   = std::min(fuel_stock, fuel_needed);
     std::cout << flight_number << " " << fuel_used << "fuel from stock (fuel aircraft : " << fuel
