@@ -80,9 +80,9 @@ void Aircraft::operate_landing_gear()
     }
 }
 
-void Aircraft::add_waypoint(const Waypoint& wp, const bool front)
+template <bool front> void Aircraft::add_waypoint(const Waypoint& wp)
 {
-    if (front)
+    if constexpr (front == true)
     {
         waypoints.push_front(wp);
     }
@@ -101,7 +101,12 @@ bool Aircraft::move()
             return false;
         }
         // If i ask for instruction after leaving the terinal, i'm sufficiently hight to be removed!
-        waypoints = control.get_instructions(*this);
+        // waypoints = control.get_instructions(*this);
+        const auto front = false;
+        for (const auto& wp : control.get_instructions(*this))
+        {
+            add_waypoint<front>(wp);
+        }
     }
 
     if (!is_at_terminal)
