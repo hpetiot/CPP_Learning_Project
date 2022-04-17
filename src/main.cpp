@@ -14,9 +14,9 @@ void test_generic_points()
     auto p3 = p1 + p2;
     auto p4 = p1 * 2;
     auto p5 = p1 - p2;
-    auto p6 = p1;
+    // auto p6 = p1; - > won't compile
 
-    printall(p1, p2, p3, p4, p5, p6);
+    printall(p1, p2, p3, p4, p5);
 }
 
 int main(int argc, char** argv)
