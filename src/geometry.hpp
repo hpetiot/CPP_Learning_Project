@@ -176,10 +176,10 @@ template <typename type, size_t size> class Point
 private:
     std::array<type, size> coord;
 
-    Point& operate(Point& other, BinaryOperation binary_op)
+    template <class BinOp> Point& operate(Point& other, BinOp binary_op)
     {
         assert(other.coord.size() == size);
-        std::transform(coord.begin(), coord.end(, other.coord.begin(), values.begin(), binary_op));
+        std::transform(coord.begin(), coord.end(), other.coord.begin(), coord.begin(), binary_op());
         return *this;
     }
 
@@ -191,7 +191,8 @@ public:
 
     Point& operator*=(const type scalar)
     {
-        return operate(other, [scalar](auto& val) { return val * scalar; });
+        // return operate(other, [scalar](auto& val) { return val * scalar; });
+        return std::for_each(coord.begin(), coord.end(), [scalar](auto& value) { value *= scalar; });
     }
     Point operator+(const Point& other) const
     {
@@ -214,11 +215,16 @@ public:
         return result;
     }
 
-    Point operator-() const { return Point { -x(), -y(), -z() }; }
+    Point operator-() const
+    {
+        Point negativ;
+        std::transform(coord.begin(), coord.end(), negativ.coord.begin(), std::negate());
+        return negativ;
+    }
 
     double length() const
     {
         return std::sqrt(std::accumulate(coord.begin(), coord.end(), 0.d,
-                                         [](type acc, type value) { return value * value + acc }))
+                                         [](type acc, type value) { return value * value + acc; }));
     }
 };
