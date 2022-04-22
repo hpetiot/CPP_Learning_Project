@@ -92,6 +92,7 @@ WaypointQueue Tower::reserve_terminal(Aircraft& aircraft)
 
 void Tower::signal_crash(const Aircraft* aircraft)
 {
+    assert(aircraft != nullptr);
     auto reservation = reserved_terminals.find(aircraft);
     airport.get_terminal(reservation->second).free_assignment();
     reserved_terminals.erase(reservation);

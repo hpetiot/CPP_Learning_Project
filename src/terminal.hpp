@@ -39,7 +39,12 @@ public:
         }
     }
 
-    void free_assignment() { current_aircraft = nullptr; }
+    void free_assignment()
+    {
+        assert(current_aircraft != nullptr &&
+               "current aircraft should already be defined for this function to be called");
+        current_aircraft = nullptr;
+    }
 
     bool move() override
     {

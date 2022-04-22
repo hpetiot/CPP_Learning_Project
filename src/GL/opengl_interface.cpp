@@ -18,6 +18,7 @@ void handle_error(const std::string& prefix, const GLenum err)
 
 void keyboard(unsigned char key, int, int)
 {
+    assert(gl_is_init);
     const auto iter = keystrokes.find(key);
     if (iter != keystrokes.end())
     {
@@ -27,6 +28,8 @@ void keyboard(unsigned char key, int, int)
 
 void toggle_fullscreen()
 {
+    assert(gl_is_init);
+
     if (fullscreen)
     {
         glutPositionWindow(10, 10);
@@ -43,6 +46,8 @@ void toggle_fullscreen()
 
 void change_zoom(const float factor)
 {
+    assert(gl_is_init);
+
     zoom *= factor;
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
@@ -52,6 +57,8 @@ void change_zoom(const float factor)
 
 void reshape_window(int w, int h)
 {
+    assert(gl_is_init);
+
     glViewport(0, 0, w, h);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
@@ -61,6 +68,7 @@ void reshape_window(int w, int h)
 
 void display(void)
 {
+    assert(gl_is_init);
 
     // sort the displayables by their z-coordinate
     std::sort(display_queue.begin(), display_queue.end(), disp_z_cmp {});
@@ -96,6 +104,7 @@ void timer(const int step)
 
 void init_gl(int argc, char** argv, const char* title)
 {
+    assert(gl_is_init == false && "this might be a n-th call to init, only 1 call should be done");
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_RGBA);
     glutInitWindowSize(DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT);
@@ -111,6 +120,8 @@ void init_gl(int argc, char** argv, const char* title)
     glutKeyboardFunc(keyboard);
     glutDisplayFunc(display);
     glutReshapeFunc(reshape_window);
+
+    gl_is_init = true;
 
     handle_error("Cannot init OpenGL");
 }

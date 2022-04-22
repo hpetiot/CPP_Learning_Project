@@ -22,6 +22,7 @@ inline unsigned int ticks_per_sec = DEFAULT_TICKS_PER_SEC;
 inline float zoom                 = DEFAULT_ZOOM;
 inline bool fullscreen            = false;
 inline bool PAUSED                = false;
+inline bool gl_is_init            = false;
 
 using KeyStroke = std::function<void(void)>;
 

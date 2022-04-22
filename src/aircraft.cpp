@@ -23,6 +23,7 @@ void Aircraft::turn_to_waypoint()
 
 void Aircraft::turn(Point3D direction)
 {
+    // assert(direction != nullptr);
     (speed += direction.cap_length(type.max_accel)).cap_length(max_speed());
 }
 
@@ -79,9 +80,9 @@ void Aircraft::operate_landing_gear()
     }
 }
 
-void Aircraft::add_waypoint(const Waypoint& wp, const bool front)
+template <bool front> void Aircraft::add_waypoint(const Waypoint& wp)
 {
-    if (front)
+    if constexpr (front == true)
     {
         waypoints.push_front(wp);
     }
@@ -100,7 +101,12 @@ bool Aircraft::move()
             return false;
         }
         // If i ask for instruction after leaving the terinal, i'm sufficiently hight to be removed!
-        waypoints = control.get_instructions(*this);
+        // waypoints = control.get_instructions(*this);
+        const auto front = false;
+        for (const auto& wp : control.get_instructions(*this))
+        {
+            add_waypoint<front>(wp);
+        }
     }
 
     if (!is_at_terminal)
@@ -198,6 +204,7 @@ bool Aircraft::is_low_on_fuel() const
 
 void Aircraft::refill(int& fuel_stock)
 {
+    assert(fuel_stock >= 0 && "fuel_stock should never be ABLE to drop beloow 0");
     int fuel_needed = 3000 - fuel;
     int fuel_used   = std::min(fuel_stock, fuel_needed);
     std::cout << flight_number << " " << fuel_used << "fuel from stock (fuel aircraft : " << fuel

@@ -33,5 +33,6 @@ std::unique_ptr<Aircraft> AircraftFactory::create_random_aircraft(Tower& tower)
 
 const std::string_view AircraftFactory::get_airline_name(int airline_number)
 {
+    assert(airline_number >= 0);
     return airlines[airline_number];
 }

@@ -4,6 +4,7 @@
 #include <array>
 #include <cassert>
 #include <cmath>
+#include <functional>
 #include <iostream>
 #include <numeric>
 
@@ -175,3 +176,83 @@ inline Point2D project_2D(const Point3D& p)
 {
     return { .5f * p.x() - .5f * p.y(), .5f * p.x() + .5f * p.y() + p.z() };
 }
+
+template <typename local_type, size_t size> class Point
+{
+private:
+    std::array<local_type, size> coord;
+
+    template <class BinOp> Point& operate(const Point& other, BinOp binary_op)
+    {
+        assert(other.coord.size() == size);
+        std::transform(coord.begin(), coord.end(), other.coord.begin(), coord.begin(), binary_op);
+        return *this;
+    }
+
+public:
+    // Point() = default;
+    // Point() = default;
+    template <typename... Params>
+    Point(Params&&... params) : coord { static_cast<local_type>(std::forward<Params>(params))... }
+    {
+        static_assert(size == sizeof...(params));
+        // static_assert(std::is_arithmetic_v<local_type> && "only arithmetic types are allowed in this
+        // class"); -> forgot we needed to use SFINAE.
+    }
+    // Point& operator=(const Point& original){return Point(){coord.}}
+    Point& operator+=(const Point& other) { return operate(other, std::plus()); }
+
+    Point& operator-=(const Point& other) { return operate(other, std::minus()); }
+
+    Point& operator*=(const local_type scalar)
+    {
+        // return operate(other, [scalar](auto& val) { return val * scalar; });
+        std::for_each(coord.begin(), coord.end(), [scalar](auto& value) { value *= scalar; });
+        return *this;
+    }
+    Point operator+(const Point& other) const
+    {
+        Point result = *this;
+        result += other;
+        return result;
+    }
+
+    Point operator-(const Point& other) const
+    {
+        Point result = *this;
+        result -= other;
+        return result;
+    }
+
+    Point operator*(const local_type scalar) const
+    {
+        Point result = *this;
+        result *= scalar;
+        return result;
+    }
+
+    Point operator-() const
+    {
+        Point negativ;
+        std::transform(coord.begin(), coord.end(), negativ.coord.begin(), std::negate());
+        return negativ;
+    }
+
+    double length() const
+    {
+        return std::sqrt(std::accumulate(coord.begin(), coord.end(), 0.d,
+                                         [](local_type acc, local_type value)
+                                         { return value * value + acc; }));
+    }
+    // template <typename local_type, size_t size>
+    friend std::ostream& operator<<(std::ostream& stream, const Point& point)
+    {
+        stream << "Point<" << typeid(local_type).name() << ", " << point.coord.size() << ">(";
+        for (const auto& val : point.coord)
+        {
+            stream << val << " ";
+        }
+        stream << ")";
+        return stream;
+    }
+};
