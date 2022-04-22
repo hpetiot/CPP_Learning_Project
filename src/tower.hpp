@@ -14,7 +14,8 @@ class Terminal;
 class Tower
 {
 private:
-    using AircraftToTerminal      = std::map<const Aircraft*, size_t>;
+    using AircraftToTerminal = std::map<const Aircraft*, size_t>; // -> better to use hashMap (is an explicite
+                                                                  // type "Unorderred map").
     using AircraftAndTerminalIter = AircraftToTerminal::iterator;
 
     Airport& airport;

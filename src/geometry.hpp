@@ -150,14 +150,20 @@ struct Point3D
 
     Point3D& cap_length(const float max_len)
     {
-        assert(max_len > 0);
+        // assert(max_len > 0.01f);
 
         const float current_len = length();
         if (current_len > max_len)
         {
-            *this *= (max_len / current_len);
+            if (max_len > 0.f)
+            {
+                *this *= (max_len / current_len);
+            }
+            else
+            {
+                *this *= 0;
+            }
         }
-
         return *this;
     }
 };

@@ -82,6 +82,6 @@ public:
     bool move() override;
     bool at_terminal();
     void refill(int& fuel_stock);
-
+    const Point3D get_position();
     friend class Tower;
 };

@@ -1,5 +1,7 @@
 #include "aircraft_manager.hpp"
 
+#include "crashed_aircraft.hpp"
+
 #include <algorithm>
 #include <numeric>
 #include <string>
@@ -45,6 +47,7 @@ bool AircraftManager::move()
                                      } catch (const AircraftCrash& ac)
                                      {
                                          crashes_count++;
+                                         CrashedAircraft::add(aircraft->get_position());
                                          std::cerr << ac.what() << ", total crashes : " << crashes_count
                                                    << std::endl;
                                          return true;

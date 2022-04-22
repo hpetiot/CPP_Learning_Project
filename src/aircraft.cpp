@@ -122,7 +122,8 @@ bool Aircraft::move()
             if (!tmp_waypoints.empty())
             {
                 std::cout << flight_number << "'s path update: " << std::endl;
-                std::move(tmp_waypoints.begin(), tmp_waypoints.end(), std::back_inserter(waypoints));
+                // std::move(tmp_waypoints.begin(), tmp_waypoints.end(), std::back_inserter(waypoints));
+                waypoints = std::move(tmp_waypoints); // <- not only for U_P.
             }
         }
 
@@ -152,8 +153,13 @@ bool Aircraft::move()
         {
             // if we are in the air, but too slow, then we will sink!
             const float speed_len = speed.length();
-            fuel--;
 
+            fuel--;
+            if (is_low_on_fuel())
+            {
+                // speed.cap_length(std::max(speed_len - 0.1f, 0.f));
+                speed.cap_length(0.f);
+            }
             if (speed_len < SPEED_THRESHOLD)
             {
                 pos.z() -= SINK_FACTOR * (SPEED_THRESHOLD - speed_len);
@@ -208,4 +214,9 @@ bool Aircraft::at_terminal()
 int Aircraft::get_fuel() const
 {
     return fuel;
+}
+
+const Point3D Aircraft::get_position()
+{
+    return pos;
 }
